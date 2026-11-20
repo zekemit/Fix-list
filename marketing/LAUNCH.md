@@ -17,6 +17,19 @@ Limits I already know about: some sites set a Content-Security-Policy that block
 
 There is also a paid fix plan ($49 while I test whether anyone wants it): exact elements plus theme-ready code. Mostly I want feedback: what would make you trust or use this? Built with help from Claude Code.
 
+## LinkedIn post (post it yourself; edit to your own voice)
+We just open-sourced Fixlist, a free accessibility checker for online stores. It runs in your browser and sends nothing anywhere.
+
+- Drag one bookmark to your bar, click it on any page of your store, and see the problems in plain language.
+- Five free guides: alt text, color contrast, form labels, an accessibility statement template, and what the 2025 lawsuit data says (3,117 federal website accessibility suits, up 27%, source linked).
+- Open source (MIT): https://github.com/zekemit/Fix-list
+
+It is early. Automated testing finds only part of the problems, so it never says "compliant". What would make this useful for you?
+
+https://fix-list.vercel.app
+
+Notes: check LinkedIn's minimum age before posting from a young person's account; a parent's account is fine if it says who built it. LinkedIn Hiring Pro on this account only posts job listings, so it cannot publish this, and a made-up job post to promote a product would be misleading.
+
 ## dev.to article (outline)
 Title: "I built a zero-server accessibility checker as a bookmarklet. Here is what I learned."
 - Why a bookmarklet (no install, no server, privacy you can verify).
