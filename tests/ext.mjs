@@ -54,6 +54,8 @@ const zipFile = path.join(out, `fixlist-extension-${pkg.version}.zip`);
 const zipped = unzipSync(new Uint8Array(fs.readFileSync(zipFile)));
 const onDisk = []; (function walk(d, p = '') { for (const n of fs.readdirSync(d)) { const f = path.join(d, n); fs.statSync(f).isDirectory() ? walk(f, p + n + '/') : onDisk.push(p + n); } })(unpacked);
 check('the zip contains exactly the unpacked files, manifest at the top level', JSON.stringify(Object.keys(zipped).sort()) === JSON.stringify(onDisk.sort()) && 'manifest.json' in zipped, Object.keys(zipped).join());
+const committed = path.join(root, 'releases', `fixlist-extension-${pkg.version}.zip`);
+check('the zip committed in releases/ matches what the current source builds (rebuild and copy it if this fails)', fs.existsSync(committed) && sha(fs.readFileSync(committed)) === sha(fs.readFileSync(zipFile)));
 check('the zip is small enough to upload (under 2 MB)', fs.statSync(zipFile).size < 2 * 1024 * 1024);
 
 // ---- 2. Real Chromium with the extension loaded ------------------------------

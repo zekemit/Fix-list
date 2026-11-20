@@ -3,11 +3,14 @@
 Click the toolbar button (or press Alt+Shift+F) on any page and a panel lists the accessibility problems software can find, in plain language. It works on sites whose Content-Security-Policy blocks the bookmarklet, because Chrome lets extensions inject their own bundled files.
 
 ## Install (until it is in the Chrome Web Store)
+Easiest: download [`releases/fixlist-extension-0.1.0.zip`](https://github.com/zekemit/fix-list/raw/main/releases/fixlist-extension-0.1.0.zip), unzip it, then open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked**, and select the unzipped folder.
+
+Or build it yourself:
 ```bash
 npm install
 npm run build:extension      # builds dist-ext/unpacked and dist-ext/fixlist-extension-<version>.zip
 ```
-Then in Chrome (or Edge, Brave): open `chrome://extensions`, switch on **Developer mode**, choose **Load unpacked**, and select `dist-ext/unpacked`. Pin the button from the puzzle-piece menu.
+Then load `dist-ext/unpacked` the same way. Pin the button from the puzzle-piece menu.
 
 ## What it can and cannot do
 - It runs **only when you click it**, on that tab only. No background activity, no content scripts, no host permissions.

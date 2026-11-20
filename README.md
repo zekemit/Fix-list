@@ -5,7 +5,7 @@ A free, in-browser accessibility check for online stores, and a paid fix plan.
 - **Free check:** a bookmarklet that runs [axe-core](https://github.com/dequelabs/axe-core) on the page you are viewing and shows the problems in plain language. It sends nothing anywhere. The code is in `src/js/fixlist-check.js`, and a test proves the only requests it makes go to its own origin.
 - **Fix plan ($49 test price):** we scan the store's key pages and write a prioritized plan with exact elements and fix instructions (plain-language guidance for 25 common rule types; official links for the rest). The plan is produced by the command-line tool below.
 - **Command-line tool:** `fixlist scan <url>` checks one or many pages from your terminal or CI, prints the problems in plain language, and can write a Markdown fix plan or JSON. Unlike the bookmarklet it also works on sites whose Content-Security-Policy blocks outside scripts.
-- **Chrome extension:** click a toolbar button on any page to see the problems in a panel. Runs only when clicked, asks for just `activeTab` and `scripting`, and makes no network requests. See `docs/EXTENSION.md`.
+- **Chrome extension:** click a toolbar button on any page to see the problems in a panel. Runs only when clicked, asks for just `activeTab` and `scripting`, and makes no network requests. Download the zip from [`releases/`](releases/fixlist-extension-0.1.0.zip) or see `docs/EXTENSION.md`.
 - **Site:** a static site (no framework) in `content/`, `src/` and `scripts/build.mjs`, with free guides for store owners.
 
 It deliberately makes no compliance claims. See `docs/PROOF_PLAN.md` for how we find out whether it can be a business.
