@@ -61,6 +61,11 @@ export function buildContent(cfg, ctx) {
 <p>Prefer to copy it? <button type="button" id="copy-code" class="btn secondary" hidden>Copy bookmarklet code</button></p>
 <pre id="bookmarklet-code">${ctx.bookmarkletHref.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</pre>
 
+<h2>Or use the command line</h2>
+<p>Developers, agencies and anyone who wants to check several pages at once can run the same engine from a terminal. It needs Node 18.3 or newer and a Chrome, Edge or Chromium browser. It also works on sites whose Content Security Policy blocks the bookmark.</p>
+<pre>npx github:zekemit/fix-list scan https://your-store.com/ --out fix-plan.md</pre>
+<p>It prints the problems in plain language and writes a Markdown fix plan. Add <code>--format json</code> for machine-readable output, or <code>--fail-on serious</code> to fail a build. <a href="${cfg.repoUrl}#command-line-tool">Full options</a>.</p>
+
 <h2>Check each kind of page</h2>
 <p>Stores repeat the same templates, so check one of each: home, collection, product, cart, search and any page with a form. Problems in a template appear on every page that uses it.</p>
 
