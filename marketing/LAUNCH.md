@@ -8,16 +8,18 @@ Nothing here can be posted by me: each channel needs an account in a person's na
 3. Day 1: Show HN. Day 2: dev.to article. Day 3: Indie Hackers. Day 4 onward: help-first replies (below). Product Hunt once there is a first customer quote.
 
 ## Show HN
-**Title:** Show HN: A zero-server accessibility checker bookmarklet for online stores
+**Title:** Show HN: Fixlist, an accessibility checker for online stores (CLI, extension)
 
 **Text:**
-I built a free bookmarklet that runs axe-core on the page you are viewing and explains the problems in plain language for store owners (missing alt text, unlabelled forms, low contrast, and so on). It makes no requests except loading the engine from its own origin, and a test checks that. Source is on GitHub.
+I built a free accessibility checker for online store owners. It runs axe-core on a page and explains each problem in plain language (missing alt text, unlabelled forms, low contrast, icon-only buttons), with the Shopify fix where there is one.
 
-Limits I already know about: some sites set a Content-Security-Policy that blocks outside scripts (the bookmarklet then says so; an extension would fix that), and automated testing only covers part of WCAG, so it never says "compliant".
+You can use it three ways: a bookmarklet (no install), a command line (`npx github:zekemit/fix-list scan https://your-store.com/ --out plan.md`, with JSON output and an exit code for CI), or a Chrome extension (zip in the repo, not in the Web Store yet). All three run on your machine and send nothing anywhere; tests check that the only requests are the page's own.
 
-There is also a command-line version (`npx github:zekemit/fix-list scan <url>`, output as text, Markdown or JSON, exit code for CI) that works on sites whose Content-Security-Policy blocks the bookmarklet.
+Limits I already know about: the bookmarklet is blocked by sites with a strict Content-Security-Policy (it says so; the CLI and extension are not affected), automated testing covers only part of WCAG so it never says "compliant", and it checks the page as loaded, not content behind logins or clicks.
 
-There is also a paid fix plan ($49 while I test whether anyone wants it): exact elements plus fix instructions (guidance for the 25 most common problem types, official links for the rest). Mostly I want feedback: what would make you trust or use this? Built with help from Claude Code.
+There is also a $49 written fix plan that I am testing the demand for. Mostly I want feedback: what would make you trust or use this, and what is it missing? Built with help from Claude Code.
+
+Repo (MIT): https://github.com/zekemit/fix-list  Site: https://fix-list.vercel.app
 
 ## LinkedIn post (post it yourself; edit to your own voice)
 We just open-sourced Fixlist, a free accessibility checker for online stores. It runs in your browser and sends nothing anywhere.
@@ -32,7 +34,10 @@ https://fix-list.vercel.app
 
 Notes: check LinkedIn's minimum age before posting from a young person's account; a parent's account is fine if it says who built it. LinkedIn Hiring Pro on this account only posts job listings, so it cannot publish this, and a made-up job post to promote a product would be misleading.
 
-## dev.to article (outline)
+## dev.to article
+Full draft in `marketing/DEVTO.md` (copy it into dev.to, add a cover image if you like, and keep the disclosure at the end).
+
+Outline:
 Title: "I built a zero-server accessibility checker as a bookmarklet. Here is what I learned."
 - Why a bookmarklet (no install, no server, privacy you can verify).
 - The shadow-DOM overlay and why it stays out of the page's CSS.
