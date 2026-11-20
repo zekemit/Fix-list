@@ -3,10 +3,10 @@
 Written 2026-11-20. Honest framing: nobody can promise this works. This plan makes it fail fast and cheap if it does not.
 
 ## The bet
-Online store owners who see an automated accessibility problem list will pay a small amount ($49 test price) for a prioritized fix plan with exact elements and theme-ready code, because fixing is the hard part and the free check shows the gap.
+Online store owners who see an automated accessibility problem list will pay a small amount ($49 test price) for a prioritized fix plan with exact elements and fix instructions, because fixing is the hard part and the free check shows the gap.
 
 ## Why we think it has a chance
-- **Pain with outside evidence:** 3,117 federal website accessibility suits in 2025 (+27%); retail and e-commerce are the large majority of cases by two trackers. Sources are linked on the site and in `research`.
+- **Pain with outside evidence:** 3,117 federal website accessibility suits in 2025 (+27%); e-commerce was about 69% of cases in UsableNet's first-half 2025 tracking (a vendor figure). Sources are linked on the site.
 - **Honest positioning is open:** the FTC finalized a $1M order against a "one-click compliance" widget vendor (April 2025). Evidence and fix plans are credible where promises are not.
 - **Free tool without friction:** no email, no server, no install beyond a bookmark. The privacy claim is tested in code.
 - **Near-zero marginal cost:** the scan and plan are scripted (`fulfillment/`). Cost of goods is about the payment fee.

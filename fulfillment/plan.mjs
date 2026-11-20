@@ -16,7 +16,7 @@ export function buildPlan(scan, storeName) {
   L.push(`# Accessibility fix plan${storeName ? `: ${storeName}` : ''}`);
   L.push('');
   L.push(`Page checked: ${scan.finalUrl || scan.url}`);
-  L.push(`Checked on: ${scan.scannedAt.slice(0, 10)} with axe-core ${scan.axeVersion || ''} against the WCAG 2.0, 2.1 and 2.2 Level A and AA rules that software can test.`);
+  L.push(`Checked on: ${scan.scannedAt.slice(0, 10)} with axe-core ${scan.axeVersion || ''} against the WCAG 2.0 and 2.1 Level A and AA rules that software can test (plus the target-size rule from WCAG 2.2 Level AA).`);
   L.push('');
   L.push(`**Summary:** ${v.length} issue types, ${elements} elements affected, ${high} critical or serious.`);
   L.push('');
@@ -26,7 +26,7 @@ export function buildPlan(scan, storeName) {
     L.push('No automated failures were found on this page. Check your other page types (home, collection, product, cart, search, forms) and test with a keyboard.');
   }
   v.forEach((x, i) => {
-    const r = rules[x.id];
+    const r = Object.prototype.hasOwnProperty.call(rules, x.id) ? rules[x.id] : null;
     L.push(`## ${i + 1}. ${r ? r.label : x.help}  (${x.impact}, ${x.nodeCount} element${x.nodeCount === 1 ? '' : 's'})`);
     L.push('');
     L.push(r ? `**Why it matters:** ${r.why}` : `**What it is:** ${x.description}`);

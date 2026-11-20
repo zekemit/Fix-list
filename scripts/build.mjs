@@ -20,6 +20,7 @@ fs.mkdirSync(path.join(dist, 'third-party'), { recursive: true });
 // Static assets
 fs.copyFileSync(path.join(root, 'src/css/style.css'), path.join(dist, 'style.css'));
 fs.copyFileSync(path.join(root, 'src/js/site.js'), path.join(dist, 'site.js'));
+fs.copyFileSync(path.join(root, 'LICENSE'), path.join(dist, 'LICENSE.txt'));
 
 // axe-core is vendored so the checker never depends on a third-party CDN.
 const axeDir = path.dirname(require.resolve('axe-core/package.json'));
@@ -71,7 +72,7 @@ ${cfg.bingSiteVerification ? `<meta name="msvalidate.01" content="${esc(cfg.bing
 <meta property="og:url" content="${esc(canonical)}">
 <meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="/style.css">
-${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
+${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>` : ''}
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>

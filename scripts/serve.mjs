@@ -12,7 +12,7 @@ export function serve(dir, port) {
     const candidates = [urlPath, urlPath + '.html', path.join(urlPath, 'index.html')];
     for (const c of candidates) {
       const file = path.join(root, c);
-      if (!file.startsWith(root)) continue;
+      if (file !== root && !file.startsWith(root + path.sep)) continue;
       if (fs.existsSync(file) && fs.statSync(file).isFile()) {
         res.writeHead(200, { 'content-type': TYPES[path.extname(file)] || 'application/octet-stream', 'access-control-allow-origin': '*' });
         fs.createReadStream(file).pipe(res);

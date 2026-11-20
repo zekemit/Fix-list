@@ -15,7 +15,7 @@ I built a free bookmarklet that runs axe-core on the page you are viewing and ex
 
 Limits I already know about: some sites set a Content-Security-Policy that blocks outside scripts (the bookmarklet then says so; an extension would fix that), and automated testing only covers part of WCAG, so it never says "compliant".
 
-There is also a paid fix plan ($49 while I test whether anyone wants it): exact elements plus theme-ready code. Mostly I want feedback: what would make you trust or use this? Built with help from Claude Code.
+There is also a paid fix plan ($49 while I test whether anyone wants it): exact elements plus fix instructions (guidance for the 25 most common problem types, official links for the rest). Mostly I want feedback: what would make you trust or use this? Built with help from Claude Code.
 
 ## LinkedIn post (post it yourself; edit to your own voice)
 We just open-sourced Fixlist, a free accessibility checker for online stores. It runs in your browser and sends nothing anywhere.

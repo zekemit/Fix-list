@@ -92,7 +92,7 @@
       });
       html += '<p class="sum">' + data.violations.length + ' issue types · ' + els + ' elements · ' + serious + ' critical or serious</p><ol>';
       data.violations.slice(0, 5).forEach(function (x) {
-        var r = RULES[x.id];
+        var r = Object.prototype.hasOwnProperty.call(RULES, x.id) ? RULES[x.id] : null;
         html += '<li><span class="tag ' + esc(x.impact) + '">' + esc(x.impact) + '</span>' +
           '<strong>' + esc(r ? r.label : x.help) + '</strong> (' + x.nodes + ')' +
           (r ? '<p class="tip">' + esc(r.why) + '</p>' : '') + '</li>';

@@ -2,8 +2,7 @@
 const SRC = {
   seyfarth: 'https://www.adatitleiii.com/2026/03/federal-court-website-accessibility-lawsuit-filings-bounce-back-in-2025/',
   usablenet: 'https://blog.usablenet.com/2025-midyear-accessibility-lawsuit-report-key-legal-trends',
-  audioeye: 'https://www.audioeye.com/post/retail-accessibility-lawsuit-data/',
-  ftc: 'https://ftc.gov/news-events/news/press-releases/2025/04/ftc-approves-final-order-requiring-accessibe-pay-1-million',
+  ftc: 'https://www.dataprivacyandsecurityinsider.com/2025/04/ftc-settles-with-accessibe-for-misleading-statements-about-wcag-compliance/',
   wcag: 'https://www.w3.org/TR/WCAG21/',
   contrast: 'https://www.w3.org/TR/WCAG21/#contrast-minimum'
 };
@@ -16,7 +15,7 @@ export function buildContent(cfg, ctx) {
   pages.push({
     path: '/', nav: 'Home',
     title: `${cfg.siteName}: free accessibility check for online stores`,
-    description: 'Find accessibility problems on your online store in one click. The check runs in your browser and sends nothing anywhere. Paid fix plans with theme-ready code.',
+    description: 'Find accessibility problems on your online store in one click. The check runs in your browser and sends nothing anywhere. Paid fix plans with exact elements and fix instructions.',
     body: `
 <h1>Find the accessibility problems on your online store. Free, in your browser.</h1>
 <p class="lede">Drag one button to your bookmarks bar, open any page of your store, click it, and see what automated testing finds. Nothing leaves your browser.</p>
@@ -29,13 +28,13 @@ export function buildContent(cfg, ctx) {
 <ol class="steps">
   <li><strong>Install the check.</strong> It is a bookmarklet, a bookmark that runs a small program on the page you are viewing.</li>
   <li><strong>Open your store</strong> and click it. You see the issue types, how many elements are affected and which are critical.</li>
-  <li><strong>Fix it yourself</strong> with our <a href="/guides">free guides</a>, or order a fix plan with the exact elements and theme-ready code.</li>
+  <li><strong>Fix it yourself</strong> with our <a href="/guides">free guides</a>, or order a fix plan with the exact elements and fix instructions.</li>
 </ol>
 
 <h2>Why store owners are checking now</h2>
 <ul>
   <li>Plaintiffs filed <strong>3,117 federal website accessibility lawsuits in 2025</strong>, up 27% from 2024 (<a href="${SRC.seyfarth}">Seyfarth Shaw</a>).</li>
-  <li>Industry trackers report that retail and e-commerce make up most of them, roughly 69% to 78% depending on the tracker (<a href="${SRC.usablenet}">UsableNet</a>, <a href="${SRC.audioeye}">AudioEye</a>). Both sell accessibility services, so treat the exact share as approximate.</li>
+  <li>UsableNet, a vendor that sells accessibility services, reports that e-commerce made up about 69% of the website lawsuits it tracked in the first half of 2025 (<a href="${SRC.usablenet}">UsableNet</a>). Treat the exact share as approximate.</li>
   <li>Accessible stores also work better for the people who struggle with small text, tiny buttons and unlabelled forms. That is a lot of customers.</li>
 </ul>
 
@@ -47,10 +46,10 @@ export function buildContent(cfg, ctx) {
   pages.push({
     path: '/check', nav: 'Free check',
     title: `Free accessibility check: ${cfg.siteName}`,
-    description: 'A free bookmarklet that checks the page you are viewing against the WCAG 2.2 rules software can test. Runs in your browser and sends nothing.',
+    description: 'A free bookmarklet that checks the page you are viewing against the WCAG rules software can test (2.0 and 2.1 A and AA, plus target size from 2.2). Runs in your browser and sends nothing.',
     body: `
 <h1>Free accessibility check</h1>
-<p class="lede">A one-click check for the page you are viewing. It runs the open-source axe-core engine in your browser against the WCAG 2.0, 2.1 and 2.2 rules that software can test.</p>
+<p class="lede">A one-click check for the page you are viewing. It runs the open-source axe-core engine in your browser against the WCAG 2.0 and 2.1 Level A and AA rules that software can test, plus the one WCAG 2.2 Level AA rule axe covers (target size).</p>
 
 <h2>Install it</h2>
 <ol class="steps">
@@ -78,13 +77,13 @@ export function buildContent(cfg, ctx) {
   });
 
   const orderButton = cfg.orderUrl
-    ? `<p><a class="btn" href="${cfg.orderUrl}" rel="noopener">Order the fix plan for ${price}</a></p>`
+    ? `<p><a class="btn" href="${String(cfg.orderUrl).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')}" rel="noopener">Order the fix plan for ${price}</a></p>`
     : `<p class="note"><strong>Orders open soon.</strong> We are finishing payment setup. ${contact}</p>`;
 
   pages.push({
     path: '/order', nav: 'Fix plan',
     title: `Store accessibility fix plan, ${price}: ${cfg.siteName}`,
-    description: `A prioritized accessibility fix plan for your online store: the exact elements, theme-ready code for each, and a re-check after you fix. ${price} per store.`,
+    description: `A prioritized accessibility fix plan for your online store: the exact elements, plain-language fix instructions, and a re-check after you fix. ${price} per store.`,
     body: `
 <h1>Store accessibility fix plan</h1>
 <p class="lede">The free check tells you what is wrong. The fix plan tells you exactly where it is and how to fix it, in order of importance.</p>
@@ -95,7 +94,7 @@ ${orderButton}
 <ul>
   <li><strong>A prioritized list</strong> of the problems found on your store's key pages, most important first.</li>
   <li><strong>The exact elements</strong>: selectors and the HTML as it appears, so you or your developer can find each one.</li>
-  <li><strong>Theme-ready fixes</strong>: HTML, CSS and Liquid code for each problem type, with Shopify steps where they apply.</li>
+  <li><strong>Fix instructions</strong>: for the 25 most common problem types we include a plain-language explanation, the fix, and Shopify steps or Liquid code where they apply. For other problems we link to the official guidance for that rule.</li>
   <li><strong>A draft accessibility statement</strong> you can edit and publish.</li>
   <li><strong>A re-check</strong> within 14 days, so you can confirm what you fixed.</li>
 </ul>
@@ -302,7 +301,7 @@ This statement was last updated on [date].</pre>
 <ul>
   <li>Plaintiffs filed <strong>3,117 website accessibility lawsuits in US federal court in 2025</strong>, up from 2,452 in 2024, a 27% increase. New York had 1,021, Florida 961 and Illinois 585 (<a href="${SRC.seyfarth}">Seyfarth Shaw</a>).</li>
   <li>Cases in state courts are not in that count. One accessibility vendor puts the 2025 total above 5,000 when state courts are included, a figure we could not verify independently.</li>
-  <li>Industry trackers report that e-commerce and retail make up roughly 69% to 78% of cases, and food service about 18% to 21% (<a href="${SRC.usablenet}">UsableNet</a>, <a href="${SRC.audioeye}">AudioEye</a>). These organisations sell accessibility services, so treat the exact shares as approximate.</li>
+  <li>UsableNet, which sells accessibility services, reports that in the first half of 2025 e-commerce made up about 69% of the website cases it tracked, food service about 18% and healthcare about 4% (<a href="${SRC.usablenet}">UsableNet midyear report</a>). Treat the exact shares as approximate.</li>
 </ul>
 <h2>What it does not tell you</h2>
 <p>It does not tell you your chance of being sued, and it does not tell you what a court will decide for a given site. The data show that the cases are common and concentrated in retail.</p>
