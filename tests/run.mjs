@@ -4,9 +4,7 @@ import path from 'node:path';
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
-import { execFileSync, execFile } from 'node:child_process';
-import { promisify } from 'node:util';
-const execFileP = promisify(execFile);
+import { execFileSync } from 'node:child_process';
 import { serve } from '../scripts/serve.mjs';
 
 const require = createRequire(import.meta.url);
@@ -108,17 +106,6 @@ try {
   check('bookmarklet tells the user when a site blocks outside scripts', dialogMsg.includes('blocks outside scripts'), dialogMsg || '(no message shown)');
   check('no overlay is left behind on a blocked site', await p4.evaluate(() => !document.getElementById('fixlist-root')));
   await ctx.close();
-
-  // 5. Fulfillment pipeline: scan -> plan.
-  const out = path.join(root, 'out-test'); fs.rmSync(out, { recursive: true, force: true });
-  await execFileP('node', ['fulfillment/scan.cjs', FIX + '/bad.html', out], { cwd: root });
-  const scanFile = fs.readdirSync(out).find((f) => f.endsWith('.json'));
-  await execFileP('node', ['fulfillment/plan.mjs', path.join(out, scanFile), path.join(out, 'plan.md'), '--store', 'Test Store'], { cwd: root });
-  const plan = fs.readFileSync(path.join(out, 'plan.md'), 'utf8');
-  const need = ['Images with no alternative text', 'Form fields with no label', 'Links with no readable text', 'Buttons with no readable text', 'Page language not set', 'Text that is hard to read'];
-  check('fix plan covers every planted issue with guidance', need.every((s) => plan.includes(s)), need.filter((s) => !plan.includes(s)).join(' | '));
-  check('fix plan includes theme-ready code and exact elements', plan.includes('request.locale.iso_code') && plan.includes('```html') && plan.includes('Test Store'));
-  check('fix plan carries the honest-limits disclaimer', plan.includes('not legal advice'));
 } finally {
   await browser.close();
   siteSrv.close(); fixSrv.close(); cspSrv.close();

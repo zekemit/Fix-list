@@ -9,7 +9,7 @@ Online store owners who see an automated accessibility problem list will pay a s
 - **Pain with outside evidence:** 3,117 federal website accessibility suits in 2025 (+27%); e-commerce was about 69% of cases in UsableNet's first-half 2025 tracking (a vendor figure). Sources are linked on the site.
 - **Honest positioning is open:** the FTC finalized a $1M order against a "one-click compliance" widget vendor (April 2025). Evidence and fix plans are credible where promises are not.
 - **Free tool without friction:** no email, no server, no install beyond a bookmark. The privacy claim is tested in code.
-- **Near-zero marginal cost:** the scan and plan are scripted (`fulfillment/`). Cost of goods is about the payment fee.
+- **Near-zero marginal cost:** the scan and plan are scripted (`bin/fixlist.mjs`). Cost of goods is about the payment fee.
 
 ## Evidence so far (2026-11-20)
 - Ran the engine once on the home pages of eight well-known Shopify storefronts: 7 usable results, **6 of 7 had at least one automated issue** (one clean; one site, Bombas, rate-limited the request). Range: 0 to 7 issue types, up to 172 elements. Big brands are not small stores, and a single page view is not a sample of the web. Treat this as a smoke test of the hook, not a statistic.

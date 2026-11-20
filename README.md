@@ -3,21 +3,52 @@
 A free, in-browser accessibility check for online stores, and a paid fix plan.
 
 - **Free check:** a bookmarklet that runs [axe-core](https://github.com/dequelabs/axe-core) on the page you are viewing and shows the problems in plain language. It sends nothing anywhere. The code is in `src/js/fixlist-check.js`, and a test proves the only requests it makes go to its own origin.
-- **Fix plan ($49 test price):** we scan the store's key pages and write a prioritized plan with exact elements and fix instructions (plain-language guidance for 25 common rule types; official links for the rest) (`fulfillment/`).
+- **Fix plan ($49 test price):** we scan the store's key pages and write a prioritized plan with exact elements and fix instructions (plain-language guidance for 25 common rule types; official links for the rest). The plan is produced by the command-line tool below.
+- **Command-line tool:** `fixlist scan <url>` checks one or many pages from your terminal or CI, prints the problems in plain language, and can write a Markdown fix plan or JSON. Unlike the bookmarklet it also works on sites whose Content-Security-Policy blocks outside scripts.
 - **Site:** a static site (no framework) in `content/`, `src/` and `scripts/build.mjs`, with free guides for store owners.
 
 It deliberately makes no compliance claims. See `docs/PROOF_PLAN.md` for how we find out whether it can be a business.
 
-## Run it
+## Command-line tool
+
+```bash
+# one-off, straight from GitHub (needs Node 18.3+ and a Chrome, Edge or Chromium)
+npx github:zekemit/fix-list scan https://your-store.com/
+
+# a fix plan for several pages, as a Markdown file
+npx github:zekemit/fix-list scan https://your-store.com/ https://your-store.com/products/example \
+  --out fix-plan.md --store "Your Store"
+
+# in CI: machine-readable output, exit code 1 if any serious or critical issue
+npx github:zekemit/fix-list scan https://staging.example.com/ --format json --fail-on serious
+```
+
+If no browser is found it tells you how to install one (`npx playwright-core install chromium`). Run `fixlist --help` for every option.
+
+| Exit code | Meaning |
+|---|---|
+| 0 | Scan finished; nothing at or above `--fail-on` (default `serious`) |
+| 1 | Issues at or above `--fail-on` |
+| 2 | Bad usage (missing or malformed address, unknown option) |
+| 3 | A page or the browser could not be used (404, timeout, no browser, bot check) |
+
+What it does and does not do:
+- It loads only the addresses you give it, injects a local copy of axe-core, and writes the report. It uploads nothing. (`tests/cli.mjs` checks that the only requests are the page and its own resources.)
+- axe-core is injected through the browser's debugging channel, so a site's Content-Security-Policy cannot block it and the page's own behaviour is not changed.
+- It does not get around bot checks, log-ins or rate limits. If a site shows a challenge page it warns you.
+- It checks the page as loaded plus a short wait (`--wait`). Content behind clicks, log-ins or scrolling is not checked.
+- Automated testing finds only part of the accessibility problems a site can have. It never says "compliant".
+
+## Run the site locally
 
 ```bash
 npm install
 npm run build        # builds dist/
-npm test             # 69 browser checks: axe on every page at two widths, links, the bookmarklet, the fix-plan pipeline
+npm test             # site checks (axe on every page at two widths, links, the bookmarklet) plus the command-line tool checks
 npm run serve        # http://127.0.0.1:4173
 ```
 
-Playwright is expected to be installed globally (`require('playwright')` must resolve).
+The tests use a Playwright install that `require('playwright')` can resolve (for example `npm install -g playwright`); the command-line tool itself only needs `playwright-core` (already a dependency) and a browser.
 
 ## Configure before launch (`site.config.json`)
 
@@ -34,8 +65,7 @@ Playwright is expected to be installed globally (`require('playwright')` must re
 See `docs/FULFILLMENT_SOP.md`. In short:
 
 ```bash
-node fulfillment/scan.cjs https://store.example/ out/       # scan a page
-node fulfillment/plan.mjs out/<file>.json out/plan.md --store "Store name"
+node bin/fixlist.mjs scan https://store.example/ https://store.example/products/x --out out/plan.md --store "Store name" --order --fail-on none
 ```
 
 ## Deploy

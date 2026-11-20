@@ -3,14 +3,40 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Free in-browser accessibility check for online stores, plus paid fix plans.",
+  "description": "Accessibility check and plain-language fix plan for web pages and online stores. Free bookmarklet and command-line tool.",
   "scripts": {
     "build": "node scripts/build.mjs",
     "serve": "node scripts/serve.mjs dist 4173",
-    "test": "node tests/run.mjs"
+    "test": "node tests/run.mjs && node tests/cli.mjs"
   },
   "dependencies": {
-    "axe-core": "^4.10.0"
+    "axe-core": "^4.10.0",
+    "playwright-core": "^1.63.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "bin": {
+    "fixlist": "bin/fixlist.mjs"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "data/rules.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.3"
+  },
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "wcag",
+    "axe-core",
+    "shopify",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zekemit/fix-list.git"
+  }
 }
