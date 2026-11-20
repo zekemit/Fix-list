@@ -22,6 +22,21 @@ fs.copyFileSync(path.join(root, 'src/css/style.css'), path.join(dist, 'style.css
 fs.copyFileSync(path.join(root, 'src/js/site.js'), path.join(dist, 'site.js'));
 fs.copyFileSync(path.join(root, 'LICENSE'), path.join(dist, 'LICENSE.txt'));
 
+// Fonts are self-hosted (no third-party requests). Licences: SIL OFL 1.1, copied beside the files.
+fs.mkdirSync(path.join(dist, 'fonts'), { recursive: true });
+const FONTS = [
+  ['@fontsource-variable/bricolage-grotesque', 'bricolage-grotesque-latin-opsz-normal.woff2'],
+  ['@fontsource-variable/atkinson-hyperlegible-next', 'atkinson-hyperlegible-next-latin-wght-normal.woff2'],
+  ['@fontsource-variable/atkinson-hyperlegible-next', 'atkinson-hyperlegible-next-latin-wght-italic.woff2'],
+  ['@fontsource-variable/atkinson-hyperlegible-mono', 'atkinson-hyperlegible-mono-latin-wght-normal.woff2'],
+];
+for (const [pkgName, file] of FONTS) {
+  const dir = path.dirname(require.resolve(`${pkgName}/package.json`));
+  fs.copyFileSync(path.join(dir, 'files', file), path.join(dist, 'fonts', file));
+  const lic = path.join(dir, 'LICENSE');
+  if (fs.existsSync(lic)) fs.copyFileSync(lic, path.join(dist, 'fonts', `${pkgName.split('/')[1]}-LICENSE.txt`));
+}
+
 // axe-core is vendored so the checker never depends on a third-party CDN.
 const axeDir = path.dirname(require.resolve('axe-core/package.json'));
 fs.copyFileSync(path.join(axeDir, 'axe.min.js'), path.join(dist, 'axe.min.js'));
@@ -71,21 +86,31 @@ ${cfg.bingSiteVerification ? `<meta name="msvalidate.01" content="${esc(cfg.bing
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${esc(canonical)}">
 <meta name="twitter:card" content="summary">
+<link rel="preload" href="/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css">
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>` : ''}
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site">
-  <a class="brand" href="/">${esc(cfg.siteName)}</a>
+  <a class="brand" href="/"><svg viewBox="0 0 28 28" width="28" height="28" aria-hidden="true" focusable="false"><rect x="2" y="2" width="24" height="24" rx="6" fill="#101B33"/><path d="M8 14.500l4 4 8-9" fill="none" stroke="#FFE14D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(cfg.siteName)}</span></a>
   <nav aria-label="Main"><ul>${navHtml}</ul></nav>
 </header>
-<main id="main">
+<main id="main" class="${urlPath === '/' ? 'home' : 'prose'}">
 ${body}
 </main>
 <footer class="site">
-  <ul><li><a href="/privacy">Privacy</a></li><li><a href="/terms">Terms</a></li><li><a href="/about">How it works</a></li></ul>
-  <p>${esc(cfg.siteName)} is not legal advice and does not certify compliance with any law or standard. Automated testing finds only part of the accessibility problems a site may have.</p>
+  <div class="foot-grid">
+    <p class="foot-note">${esc(cfg.siteName)} is not legal advice and does not certify compliance with any law or standard. Automated testing finds only part of the accessibility problems a site may have.</p>
+    <ul>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+      <li><a href="/about">How it works</a></li>
+      <li><a href="${esc(cfg.repoUrl)}">Source on GitHub</a></li>
+    </ul>
+  </div>
+  <p class="foot-type">Set in Atkinson Hyperlegible, a typeface designed for readers with low vision.</p>
 </footer>
 <script src="/site.js" defer></script>
 </body>

@@ -7,39 +7,152 @@ const SRC = {
   contrast: 'https://www.w3.org/TR/WCAG21/#contrast-minimum'
 };
 
+
+// Inline icons and the demo illustration. All decorative: text equivalents sit next to them.
+const SVG = {
+  mug: '<svg viewBox="0 0 160 120" width="160" height="120" aria-hidden="true" focusable="false"><ellipse cx="78" cy="108" rx="48" ry="7" fill="#101B33" opacity=".12"/><path d="M118 40h10a16 16 0 0 1 0 32h-12" fill="none" stroke="#1B44C8" stroke-width="9" stroke-linecap="round"/><path d="M34 28h86v44a30 30 0 0 1-30 30H64a30 30 0 0 1-30-30z" fill="#1B44C8"/><path d="M34 28h86v12H34z" fill="#3C63DB"/><path d="M48 52v18a16 16 0 0 0 10 15" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M12 20.5s-7.5-4.6-9-9.3C2 8 4 5.2 7 5.2c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3 0 5 2.8 4 6-1.5 4.700-9 9.300-9 9.300z" fill="none" stroke="#101B33" stroke-width="2" stroke-linejoin="round"/></svg>',
+  cart: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M3 4h2.500l2.200 11h10.100l2-8H6.500" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19.500" r="1.600" fill="#fff"/><circle cx="17" cy="19.500" r="1.600" fill="#fff"/></svg>'
+};
+
 export function buildContent(cfg, ctx) {
   const price = `$${cfg.price}`;
   const contact = ctx.contactHtml;
   const pages = [];
 
   pages.push({
-    path: '/', nav: 'Home',
+    path: '/', nav: null,
     title: `${cfg.siteName}: free accessibility check for online stores`,
     description: 'Find accessibility problems on your online store in one click. The check runs in your browser and sends nothing anywhere. Paid fix plans with exact elements and fix instructions.',
     body: `
-<h1>Find the accessibility problems on your online store. Free, in your browser.</h1>
-<p class="lede">Drag one button to your bookmarks bar, open any page of your store, click it, and see what automated testing finds. Nothing leaves your browser.</p>
-<div class="cta">
-  <a class="btn" href="/check">Get the free check</a>
-  <a class="btn secondary" href="/order">See the ${price} fix plan</a>
-</div>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-text">
+    <h1 id="hero-title">Hear your store the way a screen reader does.</h1>
+    <p class="lede">Fixlist checks any page of your online store for the accessibility problems software can find, explains each one in plain language, and tells you how to fix it.</p>
+    <div class="cta">
+      <a class="btn" href="/check">Get the free check</a>
+      <a class="btn secondary" href="/order">See the ${price} fix plan</a>
+    </div>
+    <p class="fine">The check runs in your browser and sends nothing anywhere. The code is <a href="${cfg.repoUrl}">open source</a>.</p>
+  </div>
 
-<h2>How it works</h2>
-<ol class="steps">
-  <li><strong>Install the check.</strong> It is a bookmarklet, a bookmark that runs a small program on the page you are viewing.</li>
-  <li><strong>Open your store</strong> and click it. You see the issue types, how many elements are affected and which are critical.</li>
-  <li><strong>Fix it yourself</strong> with our <a href="/guides">free guides</a>, or order a fix plan with the exact elements and fix instructions.</li>
-</ol>
+  <figure class="demo" id="demo" data-state="before">
+    <div class="demo-bar">
+      <figcaption id="demo-cap">The same product card, two ways</figcaption>
+      <div class="seg" role="group" aria-label="Choose which version to hear" hidden>
+        <button type="button" data-set="before" aria-pressed="true">Before the fix</button>
+        <button type="button" data-set="after" aria-pressed="false">After the fix</button>
+      </div>
+    </div>
 
-<h2>Why store owners are checking now</h2>
-<ul>
-  <li>Plaintiffs filed <strong>3,117 federal website accessibility lawsuits in 2025</strong>, up 27% from 2024 (<a href="${SRC.seyfarth}">Seyfarth Shaw</a>).</li>
-  <li>UsableNet, a vendor that sells accessibility services, reports that e-commerce made up about 69% of the website lawsuits it tracked in the first half of 2025 (<a href="${SRC.usablenet}">UsableNet</a>). Treat the exact share as approximate.</li>
-  <li>Accessible stores also work better for the people who struggle with small text, tiny buttons and unlabelled forms. That is a lot of customers.</li>
-</ul>
+    <div class="card" aria-hidden="true">
+      <div class="card-img">
+        ${SVG.mug}
+        <span class="flag flag-img">no description</span>
+        <span class="heart">${SVG.heart}</span>
+        <span class="flag flag-heart">no name</span>
+      </div>
+      <div class="card-body">
+        <p class="card-title">Blue ceramic mug</p>
+        <p class="card-price">$24.00</p>
+        <div class="card-row">
+          <div class="ctl"><span class="qty">1</span><span class="flag flag-qty">no label</span></div>
+          <div class="ctl ctl-grow"><span class="add">${SVG.cart}</span><span class="flag flag-add">no name</span></div>
+        </div>
+      </div>
+    </div>
 
-<h2>What we do not do</h2>
-<p>We do not sell a widget that claims to make your store compliant. In 2025 the <a href="${SRC.ftc}">FTC ordered an accessibility-widget vendor to pay $1 million</a> over claims that its product could make any site meet the web accessibility guidelines. Automated testing finds only part of the problems, and no tool can certify compliance. We show you real problems and how to fix them.</p>
+    <div class="said-wrap">
+      <p class="said-intro" id="said-intro">What a screen reader says, line by line. Wording varies by screen reader.</p>
+      <div class="said" data-for="before">
+        <h2 class="said-title">Before the fix</h2>
+        <ul>
+          <li class="bad d0">image <span class="why">The image has no description.</span></li>
+          <li>Blue ceramic mug, heading level 2</li>
+          <li>$24.00</li>
+          <li class="bad d1">link <span class="why">Where does it go?</span></li>
+          <li class="bad d2">edit text <span class="why">Edit what?</span></li>
+          <li class="bad d3">button <span class="why">What does it do?</span></li>
+        </ul>
+      </div>
+      <div class="said" data-for="after">
+        <h2 class="said-title">After the fix</h2>
+        <ul>
+          <li class="good">Blue ceramic mug, image</li>
+          <li>Blue ceramic mug, heading level 2</li>
+          <li>$24.00</li>
+          <li class="good">Save to wishlist, link</li>
+          <li class="good">Quantity, edit text, 1</li>
+          <li class="good">Add to cart, button</li>
+        </ul>
+      </div>
+    </div>
+  </figure>
+</section>
+
+<section class="ways" aria-labelledby="ways-title">
+  <h2 id="ways-title">Check a page three ways</h2>
+  <div class="way">
+    <h3>A bookmark</h3>
+    <div>
+      <p>Drag one button to your bookmarks bar, open any page of your store, and click it. A panel lists what was found, most serious first. Nothing is installed.</p>
+      <p><a class="btn secondary" href="/check">Get the bookmark</a></p>
+    </div>
+  </div>
+  <div class="way">
+    <h3>A command</h3>
+    <div>
+      <p>Check several pages at once, write a Markdown fix plan, or fail a build when a serious problem appears. It also works on sites that block the bookmark.</p>
+      <pre class="terminal" tabindex="0" aria-label="Example command and output"><code>npx github:zekemit/fix-list scan https://your-store.com/
+
+https://your-store.com/  (HTTP 200)
+  6 issue types, 6 elements, 6 critical or serious
+  CRITICAL Buttons with no readable text (1)
+  CRITICAL Images with no alternative text (1)
+  CRITICAL Form fields with no label (1)
+  SERIOUS  Text that is hard to read against its background (1)
+  SERIOUS  Page language not set (1)
+  SERIOUS  Links with no readable text (1)</code></pre>
+      <p class="fine">Example output. Your store's results will differ.</p>
+    </div>
+  </div>
+  <div class="way">
+    <h3>A fix plan</h3>
+    <div>
+      <p><span class="price-inline">${price}</span> per store. We check the pages you choose and send a written plan: every problem in order of importance, the exact element, and how to fix it, with Shopify steps where they apply.</p>
+      <p><a class="btn secondary" href="/order">See what's in the plan</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="finds" aria-labelledby="finds-title">
+  <h2 id="finds-title">What the check looks for</h2>
+  <p class="lede">The problems that block real customers, and the ones stores get sued over most often.</p>
+  <ul class="ticks">
+    <li><strong>Images with no description.</strong> Screen readers say &ldquo;image&rdquo; or read a file name.</li>
+    <li><strong>Form fields with no label.</strong> Customers cannot tell what to type.</li>
+    <li><strong>Buttons and links with no text.</strong> Icon-only cart and menu buttons are announced as just &ldquo;button&rdquo;.</li>
+    <li><strong>Text that is hard to read.</strong> Light grey on white fails people with low vision, and everyone outdoors.</li>
+    <li><strong>Tap targets that are too small.</strong> Hard to hit on a phone and for people with tremors.</li>
+    <li><strong>No page language or title.</strong> Screen readers pick the wrong voice or announce nothing.</li>
+  </ul>
+</section>
+
+<section class="evidence" aria-labelledby="evidence-title">
+  <h2 class="statement" id="evidence-title">No tool can make a store compliant with one click.</h2>
+  <div class="evidence-cols">
+    <p>In 2025 the <a href="${SRC.ftc}">FTC ordered an accessibility-widget vendor to pay $1 million</a> over claims that its product could make any site meet the web accessibility guidelines. Automated testing finds only part of the problems. So Fixlist shows you real problems and how to fix them, and it never says &ldquo;compliant&rdquo;.</p>
+    <p>Plaintiffs filed <strong>3,117 federal website accessibility lawsuits in 2025</strong>, up 27% from 2024 (<a href="${SRC.seyfarth}">Seyfarth Shaw</a>). UsableNet, a vendor that sells accessibility services, reports that e-commerce made up about 69% of the website cases it tracked in the first half of 2025 (<a href="${SRC.usablenet}">UsableNet</a>). Treat that share as approximate.</p>
+  </div>
+</section>
+
+<section class="closing" aria-labelledby="closing-title">
+  <h2 id="closing-title">Run it on your busiest page first.</h2>
+  <div class="cta">
+    <a class="btn" href="/check">Get the free check</a>
+    <a class="btn secondary" href="/guides">Read the free guides</a>
+  </div>
+</section>
 `
   });
 
@@ -63,7 +176,7 @@ export function buildContent(cfg, ctx) {
 
 <h2>Or use the command line</h2>
 <p>Developers, agencies and anyone who wants to check several pages at once can run the same engine from a terminal. It needs Node 18.3 or newer and a Chrome, Edge or Chromium browser. It also works on sites whose Content Security Policy blocks the bookmark.</p>
-<pre>npx github:zekemit/fix-list scan https://your-store.com/ --out fix-plan.md</pre>
+<pre class="terminal" id="cli-code" tabindex="0" aria-label="Command"><code>npx github:zekemit/fix-list scan https://your-store.com/ --out fix-plan.md</code></pre>
 <p>It prints the problems in plain language and writes a Markdown fix plan. Add <code>--format json</code> for machine-readable output, or <code>--fail-on serious</code> to fail a build. <a href="${cfg.repoUrl}#command-line-tool">Full options</a>.</p>
 
 <h2>Check each kind of page</h2>
@@ -92,11 +205,11 @@ export function buildContent(cfg, ctx) {
     body: `
 <h1>Store accessibility fix plan</h1>
 <p class="lede">The free check tells you what is wrong. The fix plan tells you exactly where it is and how to fix it, in order of importance.</p>
-<p class="price">${price} <span class="sources">per store, one-time</span></p>
+<p class="price">${price}<span class="per">per store, one time</span></p>
 ${orderButton}
 
 <h2>What you get</h2>
-<ul>
+<ul class="ticks">
   <li><strong>A prioritized list</strong> of the problems found on your store's key pages, most important first.</li>
   <li><strong>The exact elements</strong>: selectors and the HTML as it appears, so you or your developer can find each one.</li>
   <li><strong>Fix instructions</strong>: for the 25 most common problem types we include a plain-language explanation, the fix, and Shopify steps or Liquid code where they apply. For other problems we link to the official guidance for that rule.</li>
@@ -127,8 +240,8 @@ ${orderButton}
     body: `
 <h1>Free guides</h1>
 <p class="lede">Short, practical fixes for the problems the check finds most often.</p>
-<ul>
-${ctx.guides.map((g) => `  <li><a href="/guides/${g.slug}">${g.title}</a><br><span class="sources">${g.description}</span></li>`).join('\n')}
+<ul class="rows">
+${ctx.guides.map((g) => `  <li><a href="/guides/${g.slug}">${g.title}</a><span class="sources">${g.description}</span></li>`).join('\n')}
 </ul>
 `
   });

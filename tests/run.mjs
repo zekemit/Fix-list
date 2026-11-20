@@ -106,6 +106,42 @@ try {
   check('bookmarklet tells the user when a site blocks outside scripts', dialogMsg.includes('blocks outside scripts'), dialogMsg || '(no message shown)');
   check('no overlay is left behind on a blocked site', await p4.evaluate(() => !document.getElementById('fixlist-root')));
   await ctx.close();
+
+  // 5. Home demo: toggle works, stays accessible in both states, degrades without JavaScript, respects reduced motion.
+  {
+    const ctx5 = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const pg = await ctx5.newPage();
+    await pg.goto(SITE + '/');
+    const state = () => pg.evaluate(() => ({
+      s: document.getElementById('demo').dataset.state,
+      pressed: [...document.querySelectorAll('.seg button')].map((b) => b.getAttribute('aria-pressed')),
+      visible: [...document.querySelectorAll('.said')].filter((e) => e.offsetParent !== null).map((e) => e.dataset.for),
+    }));
+    let st = await state();
+    check('demo starts on the before version with the toggle shown', st.s === 'before' && st.pressed.join() === 'true,false' && st.visible.join() === 'before', JSON.stringify(st));
+    await pg.click('button[data-set=after]');
+    st = await state();
+    check('clicking "After the fix" swaps the transcript and updates aria-pressed', st.s === 'after' && st.pressed.join() === 'false,true' && st.visible.join() === 'after', JSON.stringify(st));
+    await pg.addScriptTag({ content: AXE });
+    const v = await pg.evaluate((tags) => axe.run(document, { runOnly: { type: 'tag', values: tags } }).then((r) => r.violations.map((x) => x.id)), TAGS);
+    check('home page has zero axe violations in the "after" state', v.length === 0, v.join(','));
+    await pg.focus('button[data-set=before]'); await pg.keyboard.press('Space');
+    st = await state();
+    check('toggle works from the keyboard', st.s === 'before', JSON.stringify(st));
+    await ctx5.close();
+
+    const noJs = await browser.newContext({ viewport: { width: 1280, height: 900 }, javaScriptEnabled: false });
+    const pj = await noJs.newPage(); await pj.goto(SITE + '/');
+    const nj = await pj.evaluate(() => ({ seg: document.querySelector('.seg').offsetParent !== null, both: [...document.querySelectorAll('.said')].every((e) => e.offsetParent !== null) }));
+    check('without JavaScript both versions are shown and the toggle is hidden', !nj.seg && nj.both, JSON.stringify(nj));
+    await noJs.close();
+
+    const rm = await browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' });
+    const pr = await rm.newPage(); await pr.goto(SITE + '/');
+    const anim = await pr.evaluate(() => [...document.querySelectorAll('.said li.bad')].map((e) => getComputedStyle(e).animationName));
+    check('reduced motion: no animation runs', anim.every((a) => a === 'none'), anim.join());
+    await rm.close();
+  }
 } finally {
   await browser.close();
   siteSrv.close(); fixSrv.close(); cspSrv.close();
