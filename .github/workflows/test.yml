@@ -15,3 +15,9 @@ jobs:
       - run: npm ci
       - run: npx playwright-core install --with-deps chromium
       - run: npm test
+  # Mirrors the workflow shown in the CI guide on the site: no browser install, no setup-node.
+  # Proves the command works on a stock GitHub runner and that the live site stays clean.
+  live-site-check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npx --yes github:zekemit/fix-list scan https://fix-list.vercel.app/ https://fix-list.vercel.app/check --fail-on minor
