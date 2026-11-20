@@ -1,0 +1,152 @@
+{
+  "image-alt": {
+    "label": "Images with no alternative text",
+    "why": "Screen-reader users hear a file name or nothing, so they miss what the image shows or does.",
+    "fix": "Add an alt attribute that describes the image's purpose. If the image is purely decorative, use an empty alt (alt=\"\").",
+    "shopify": "In the admin, open the product, select the image and add alt text. In theme code, `{{ product.featured_image | image_url: width: 800 | image_tag }}` outputs the alt text saved in the admin. For decorative images use `alt=\"\"`."
+  },
+  "input-image-alt": {
+    "label": "Image buttons with no alternative text",
+    "why": "An image used as a button needs text that says what the button does.",
+    "fix": "Give <input type=\"image\"> an alt attribute such as alt=\"Search\".",
+    "shopify": "Search-icon buttons in themes are often image or SVG buttons. Add alt or a visually hidden label."
+  },
+  "color-contrast": {
+    "label": "Text that is hard to read against its background",
+    "why": "Low-contrast text is hard to read for people with low vision, and for everyone in bright light.",
+    "fix": "Normal text needs a contrast ratio of at least 4.5:1 against its background. Large text (about 24px, or 18.66px bold) needs 3:1. Darken the text or lighten the background.",
+    "shopify": "In the theme editor, change the colour scheme so text and background meet the ratios. For a quick fix, add a CSS override in your theme's custom CSS box, for example `.price { color: #4a4a4a; }`, then re-check."
+  },
+  "label": {
+    "label": "Form fields with no label",
+    "why": "Screen-reader users cannot tell what to type, and a placeholder is not a label.",
+    "fix": "Connect every field to a visible <label for=\"id\"> or, if the design has no visible label, a visually hidden label.",
+    "shopify": "Newsletter and search fields are common offenders. Add `<label for=\"Email\" class=\"visually-hidden\">Email</label>` before the input and define `.visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }` if your theme lacks it."
+  },
+  "select-name": {
+    "label": "Dropdowns with no label",
+    "why": "A dropdown without a label is announced only as 'combo box', so users cannot tell what it chooses.",
+    "fix": "Add a <label for> pointing to the <select>, or an aria-label.",
+    "shopify": "Sort-by and variant dropdowns in themes need a label. Use a visually hidden label like the one for form fields."
+  },
+  "link-name": {
+    "label": "Links with no readable text",
+    "why": "Icon-only or empty links are announced as 'link', so users cannot tell where they go.",
+    "fix": "Give every link text, or an aria-label for icon-only links, for example aria-label=\"Instagram\".",
+    "shopify": "Social-media icons in the footer and cart icons in the header are the usual cause. Add `aria-label=\"Instagram\"` to the <a> or visually hidden text inside it."
+  },
+  "button-name": {
+    "label": "Buttons with no readable text",
+    "why": "An icon-only button is announced only as 'button'.",
+    "fix": "Add visible text or aria-label to each button, for example aria-label=\"Open cart\".",
+    "shopify": "Menu toggles, close buttons and quantity steppers are common. Add an aria-label that says what the button does."
+  },
+  "html-has-lang": {
+    "label": "Page language not set",
+    "why": "Screen readers pick a voice and pronunciation from the page language. Without it they may read English text with the wrong voice.",
+    "fix": "Add a lang attribute to the <html> element, for example <html lang=\"en\">.",
+    "shopify": "In theme.liquid use `<html lang=\"{{ request.locale.iso_code }}\">`."
+  },
+  "html-lang-valid": {
+    "label": "Page language value is invalid",
+    "why": "A malformed language code is ignored by assistive technology.",
+    "fix": "Use a valid BCP 47 code such as en, en-US or fr.",
+    "shopify": "In theme.liquid use `<html lang=\"{{ request.locale.iso_code }}\">`."
+  },
+  "document-title": {
+    "label": "Page has no title",
+    "why": "The title is the first thing a screen reader announces and what appears in browser tabs and search results.",
+    "fix": "Give every page a unique, descriptive <title>.",
+    "shopify": "In theme.liquid the head should contain `<title>{{ page_title }}</title>`."
+  },
+  "meta-viewport": {
+    "label": "Page blocks pinch-zoom",
+    "why": "Low-vision users on phones rely on zooming. Blocking it makes the page unusable for them.",
+    "fix": "Remove user-scalable=no and maximum-scale=1 from the viewport meta tag.",
+    "shopify": "Use `<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">` in theme.liquid."
+  },
+  "frame-title": {
+    "label": "Embedded frames with no title",
+    "why": "Screen-reader users cannot tell what an embedded video, map or widget is.",
+    "fix": "Add a title attribute to every <iframe> that describes its content.",
+    "shopify": "Review embeds in apps and in custom HTML sections, and add `title=\"Product video\"` or similar."
+  },
+  "video-caption": {
+    "label": "Videos with no captions",
+    "why": "Deaf and hard-of-hearing users cannot follow video without captions.",
+    "fix": "Add a captions track: <track kind=\"captions\" src=\"captions.vtt\" srclang=\"en\" label=\"English\">.",
+    "shopify": "For YouTube or Vimeo embeds, upload captions on the video platform. For self-hosted video add a <track> element."
+  },
+  "link-in-text-block": {
+    "label": "Links inside text distinguished by colour alone",
+    "why": "Users who cannot see colour differences cannot find the links.",
+    "fix": "Underline links inside body text, or add another visual cue with at least 3:1 contrast.",
+    "shopify": "Add `.rte a { text-decoration: underline; }` (or your theme's rich-text class) in custom CSS."
+  },
+  "target-size": {
+    "label": "Tap targets that are too small",
+    "why": "Small buttons and links are hard to hit for people with motor impairments, and on phones.",
+    "fix": "Make interactive targets at least 24 by 24 CSS pixels, or space them so a 24px circle around each does not overlap another.",
+    "shopify": "Check footer links, quantity steppers and carousel dots. Add padding to the clickable element."
+  },
+  "aria-allowed-attr": {
+    "label": "ARIA attribute not allowed on this element",
+    "why": "Wrong ARIA can make a control announce incorrectly, which is often worse than none.",
+    "fix": "Remove the attribute, or change the element or role so the attribute is valid.",
+    "shopify": "Often comes from an app or a theme section. Identify the element in the plan's examples and remove or correct the attribute."
+  },
+  "aria-required-attr": {
+    "label": "ARIA role missing a required attribute",
+    "why": "Some roles need extra attributes to work with assistive technology.",
+    "fix": "Add the attribute the role requires, or remove the role.",
+    "shopify": "Often from a custom slider or tab widget. Check the element listed in the examples."
+  },
+  "aria-valid-attr-value": {
+    "label": "ARIA attribute has an invalid value",
+    "why": "A broken reference (for example aria-labelledby pointing to an id that does not exist) leaves the control unnamed.",
+    "fix": "Correct the value, or make sure the id it points to exists.",
+    "shopify": "IDs generated in Liquid loops can collide or go missing. Check that referenced ids render."
+  },
+  "aria-roles": {
+    "label": "Invalid ARIA role",
+    "why": "An unknown role is ignored, so the element loses its meaning.",
+    "fix": "Use a valid role, or better, a native HTML element.",
+    "shopify": "Check custom sections and apps."
+  },
+  "aria-hidden-focus": {
+    "label": "Hidden content can still be focused",
+    "why": "Keyboard users can land on elements that screen readers are told to ignore.",
+    "fix": "Do not put focusable elements inside aria-hidden regions, or remove them from the tab order.",
+    "shopify": "Common with off-canvas menus and cart drawers that are hidden visually but still focusable. Add the `inert` attribute while they are closed."
+  },
+  "label-content-name-mismatch": {
+    "label": "Visible button or link text differs from its accessible name",
+    "why": "People using voice control say what they see on screen, such as \"click Add to cart\". If the hidden name is different, the command fails.",
+    "fix": "Make the aria-label start with the exact visible text, or remove the aria-label so the visible text is used.",
+    "shopify": "Common on product cards and header buttons where an aria-label such as \"Open cart drawer\" replaces visible text like \"Cart\". Change it to start with the visible word, for example aria-label=\"Cart, open drawer\"."
+  },
+  "nested-interactive": {
+    "label": "Controls nested inside other controls",
+    "why": "A button or link inside another button or link is announced unpredictably, and keyboard users may not reach the inner one.",
+    "fix": "Do not put interactive elements inside other interactive elements. Restructure so they are siblings.",
+    "shopify": "Often a product card where the whole card is a link and contains an add-to-cart button. Make the card a container and link only the title or image."
+  },
+  "aria-prohibited-attr": {
+    "label": "ARIA attribute not allowed on this element",
+    "why": "Some elements cannot carry a name, so an aria-label on them is ignored or announced inconsistently.",
+    "fix": "Move the attribute to a suitable element, add an appropriate role, or remove it.",
+    "shopify": "Often an aria-label on a plain <div> or <span> added by a theme or app. Put the label on a link, button or region instead."
+  },
+  "aria-input-field-name": {
+    "label": "Custom input with no accessible name",
+    "why": "A custom dropdown, slider or search box with a role but no name is announced without saying what it is for.",
+    "fix": "Add aria-label or aria-labelledby to the element with the input role, or use a native <input> or <select> with a <label>.",
+    "shopify": "Typical of search-as-you-type widgets and filter sliders from apps. Add aria-label=\"Search products\" or a visible label."
+  },
+  "aria-required-parent": {
+    "label": "ARIA element missing its required parent",
+    "why": "Some roles only work inside a specific container, for example a tab must sit inside a tablist.",
+    "fix": "Wrap the element in the required parent role, or remove the role.",
+    "shopify": "Often from custom tabs, menus or carousels. Check the structure of the widget listed in the examples."
+  }
+}

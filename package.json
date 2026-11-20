@@ -1,0 +1,16 @@
+{
+  "name": "fixlist",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Free in-browser accessibility check for online stores, plus paid fix plans.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs dist 4173",
+    "test": "node tests/run.mjs"
+  },
+  "dependencies": {
+    "axe-core": "^4.10.0"
+  },
+  "license": "MIT"
+}
