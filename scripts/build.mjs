@@ -47,7 +47,8 @@ for (const name of ['LICENSE', 'LICENSE.txt']) {
 
 // Checker script with rules injected.
 const rules = fs.readFileSync(path.join(root, 'data/rules.json'), 'utf8');
-const checker = fs.readFileSync(path.join(root, 'src/js/fixlist-check.js'), 'utf8').replace('/*__RULES__*/ {}', rules.trim());
+const checkerSrc = fs.readFileSync(path.join(root, 'src/js/fixlist-check.js'), 'utf8');
+const checker = checkerSrc.replace('/*__RULES__*/ {}', rules.trim());
 if (checker === fs.readFileSync(path.join(root, 'src/js/fixlist-check.js'), 'utf8')) { throw new Error('RULES token not replaced'); }
 fs.writeFileSync(path.join(dist, 'fixlist-check.js'), checker);
 

@@ -3,3 +3,4 @@ dist/
 out-test/
 .vercel/
 .DS_Store
+dist-ext/

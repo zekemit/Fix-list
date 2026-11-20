@@ -5,10 +5,11 @@ import path from 'node:path';
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+import { chromium } from 'playwright-core';
 import { execFile } from 'node:child_process';
 
 const require = createRequire(import.meta.url);
-const { chromium } = require('playwright');
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CLI = path.join(root, 'bin/fixlist.mjs');
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');

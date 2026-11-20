@@ -271,7 +271,7 @@ ${ctx.guides.map((g) => `  <li><a href="/guides/${g.slug}">${g.title}</a><span c
 <h1>Privacy</h1>
 <p>Last updated ${cfg.lastUpdated}.</p>
 <h2>The free check</h2>
-<p>It runs in your browser and sends nothing to us.</p>
+<p>It runs in your browser and sends nothing to us. The same is true of the command-line tool and the browser extension: they run on your computer, load only the pages you point them at, and upload nothing.</p>
 <h2>This website</h2>
 <p>We use standard server logs from our host and may use privacy-friendly page-view counts. We do not use advertising trackers or sell data.</p>
 <h2>When you order</h2>

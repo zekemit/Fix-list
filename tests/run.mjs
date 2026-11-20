@@ -4,11 +4,12 @@ import path from 'node:path';
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+import { chromium } from 'playwright-core';
 import { execFileSync } from 'node:child_process';
 import { serve } from '../scripts/serve.mjs';
 
 const require = createRequire(import.meta.url);
-const { chromium } = require('playwright');
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
