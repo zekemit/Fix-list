@@ -20,6 +20,7 @@ fs.mkdirSync(path.join(dist, 'third-party'), { recursive: true });
 // Static assets
 fs.copyFileSync(path.join(root, 'src/css/style.css'), path.join(dist, 'style.css'));
 fs.copyFileSync(path.join(root, 'src/js/site.js'), path.join(dist, 'site.js'));
+fs.copyFileSync(path.join(root, 'src/img/og.png'), path.join(dist, 'og.png'));
 fs.copyFileSync(path.join(root, 'LICENSE'), path.join(dist, 'LICENSE.txt'));
 
 // Fonts are self-hosted (no third-party requests). Licences: SIL OFL 1.1, copied beside the files.
@@ -86,7 +87,12 @@ ${cfg.bingSiteVerification ? `<meta name="msvalidate.01" content="${esc(cfg.bing
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${esc(canonical)}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="${esc(baseUrl)}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A product card with its accessibility problems marked in yellow, next to what a screen reader would say about it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${esc(baseUrl)}/og.png">
 <link rel="preload" href="/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css">
@@ -114,6 +120,7 @@ ${body}
   <p class="foot-type">Set in Atkinson Hyperlegible, a typeface designed for readers with low vision.</p>
 </footer>
 <script src="/site.js" defer></script>
+${cfg.webAnalytics ? '<script src="/_vercel/insights/script.js" defer></script>' : ''}
 </body>
 </html>
 `;
@@ -125,14 +132,27 @@ function outFile(urlPath) {
 
 const written = [];
 for (const p of allPages) {
-  fs.writeFileSync(outFile(p.path), layout({ title: p.title, description: p.description, body: p.body, urlPath: p.path }));
+  const app = (p.path === '/' || p.path === '/check') ? {
+    '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: cfg.siteName, url: baseUrl + '/',
+    description: 'Free accessibility check for online stores: a bookmarklet, a command-line tool and a Chrome extension. Runs on your own computer and sends nothing anywhere.',
+    applicationCategory: 'DeveloperApplication', operatingSystem: 'Any web browser; Node.js 18.3 or newer for the command-line tool',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: cfg.currency },
+    license: 'https://opensource.org/licenses/MIT', sameAs: [cfg.repoUrl]
+  } : undefined;
+  fs.writeFileSync(outFile(p.path), layout({ title: p.title, description: p.description, body: p.body, urlPath: p.path, jsonLd: app }));
   written.push(p.path);
 }
+// Three other guides, starting after this one, so every guide links onward.
+const related = (g) => { const all = content.guides; const i = all.indexOf(g); return [1, 2, 3].map((n) => all[(i + n) % all.length]); };
 for (const g of content.guides) {
   const urlPath = `/guides/${g.slug}`;
   const body = `<p class="sources"><a href="/guides">All guides</a></p>
 <h1>${esc(g.title)}</h1>
 ${g.body}
+<h2>More guides</h2>
+<ul class="rows">
+${related(g).map((r) => `  <li><a href="/guides/${r.slug}">${esc(r.title)}</a><span class="sources">${esc(r.description)}</span></li>`).join('\n')}
+</ul>
 <div class="cta"><a class="btn" href="/check">Run the free check</a><a class="btn secondary" href="/order">See the fix plan</a></div>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'Article', headline: g.title, description: g.description,

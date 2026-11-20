@@ -14,7 +14,7 @@ Online store owners who see an automated accessibility problem list will pay a s
 ## Evidence so far (2026-11-20)
 - Ran the engine once on the home pages of eight well-known Shopify storefronts: 7 usable results, **6 of 7 had at least one automated issue** (one clean; one site, Bombas, rate-limited the request). Range: 0 to 7 issue types, up to 172 elements. Big brands are not small stores, and a single page view is not a sample of the web. Treat this as a smoke test of the hook, not a statistic.
 - **1 of 8 sites (Gymshark) sets a Content-Security-Policy that blocks outside scripts**, so the bookmarklet would not run there. It alerts the user instead of failing silently. A browser extension would avoid this and is the first roadmap item if demand shows up.
-- 102 automated checks pass (66 site checks and 36 command-line checks), including zero axe violations on every page of the site at 1280px and 375px.
+- 196 automated checks pass (131 site, 36 command-line and 29 extension checks), including zero axe violations on every page of the site at 1280px and 375px.
 
 ## Sequencing: open source first, then paid
 **Phase A (now to about day 30): free and open source.** The goal is evidence that people want this before anyone is asked to pay. Proposed pass thresholds (my proposals): at least 300 visits to the check page, at least 25 GitHub stars or forks, at least 10 pieces of real feedback, and at least 5 people who say, unprompted, that they would pay for the fix plan. The order page stays "Orders open soon" and is honest about it.

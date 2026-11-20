@@ -1,3 +1,5 @@
+import { extraGuides } from './extra-guides.mjs';
+
 // Page content. Every claim with a number links to its source. No compliance promises.
 const SRC = {
   seyfarth: 'https://www.adatitleiii.com/2026/03/federal-court-website-accessibility-lawsuit-filings-bounce-back-in-2025/',
@@ -434,6 +436,8 @@ This statement was last updated on [date].</pre>
 `
     }
   ];
+
+  guides.push(...extraGuides(cfg, SRC));
 
   return { pages, guides };
 }

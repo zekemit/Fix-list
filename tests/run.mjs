@@ -144,6 +144,42 @@ try {
     check('reduced motion: no animation runs', anim.every((a) => a === 'none'), anim.join());
     await rm.close();
   }
+
+  // 6. Sharing and discovery: share image, structured data, onward links between guides.
+  {
+    const og = fs.readFileSync(path.join(dist, 'og.png'));
+    check('share image is a 1200x630 PNG under 400 KB', og.subarray(1, 4).toString() === 'PNG' && og.readUInt32BE(16) === 1200 && og.readUInt32BE(20) === 630 && og.length < 400 * 1024, `${og.readUInt32BE(16)}x${og.readUInt32BE(20)} ${og.length}`);
+    let badMeta = [], badLd = [];
+    for (const f of htmlFiles) {
+      const t = fs.readFileSync(f, 'utf8');
+      const u = urlOf(f);
+      if (u === '/404') continue;
+      const ok = t.includes(`<meta property="og:image" content="${SITE}/og.png">`) && t.includes('name="twitter:card" content="summary_large_image"') && /og:image:alt" content="[^"]{20,}/.test(t) && /<link rel="canonical" href="http/.test(t);
+      if (!ok) badMeta.push(u);
+      for (const m of t.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) { try { const j = JSON.parse(m[1]); if (!j['@type']) badLd.push(u); } catch { badLd.push(u); } }
+    }
+    check('every page has canonical, og:image (absolute), image alt and a large twitter card', badMeta.length === 0, badMeta.join(', '));
+    check('all JSON-LD blocks parse and have a type', badLd.length === 0, badLd.join(', '));
+    const homeLd = JSON.parse(fs.readFileSync(path.join(dist, 'index.html'), 'utf8').match(/application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+    check('home page declares a free SoftwareApplication (price 0, no ratings invented)', homeLd['@type'] === 'SoftwareApplication' && homeLd.offers.price === '0' && !('aggregateRating' in homeLd) && !('review' in homeLd));
+    const guideFiles = fs.readdirSync(path.join(dist, 'guides'));
+    const slugs = guideFiles.map((f) => f.replace('.html', ''));
+    let noRelated = [];
+    for (const f of guideFiles) {
+      const t = fs.readFileSync(path.join(dist, 'guides', f), 'utf8');
+      const sec = t.split('<h2>More guides</h2>')[1] || '';
+      const links = [...sec.matchAll(/href="\/guides\/([a-z0-9-]+)"/g)].map((m) => m[1]);
+      if (links.length !== 3 || links.includes(f.replace('.html', '')) || !links.every((l) => slugs.includes(l))) noRelated.push(f);
+    }
+    check(`all ${guideFiles.length} guides link onward to three other guides`, noRelated.length === 0, noRelated.join(', '));
+    const idx = fs.readFileSync(path.join(dist, 'guides.html'), 'utf8');
+    check('the guides index lists every guide', slugs.every((sl) => idx.includes(`href="/guides/${sl}"`)), slugs.filter((sl) => !idx.includes(`href="/guides/${sl}"`)).join(', '));
+    check('analytics script is off unless enabled in site.config.json', !fs.readFileSync(path.join(dist, 'index.html'), 'utf8').includes('_vercel/insights'));
+    const sm = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');
+    check('sitemap lists every guide', slugs.every((sl) => sm.includes(`/guides/${sl}</loc>`)));
+    const claimsBad = htmlFiles.filter((f) => /\b(guaranteed compliant|100% compliant|fully compliant|ADA[- ]compliant in)\b/i.test(fs.readFileSync(f, 'utf8').replace(/<title>.*?<\/title>/s, '')));
+    check('no page claims or promises compliance', claimsBad.length === 0, claimsBad.join(', '));
+  }
 } finally {
   await browser.close();
   siteSrv.close(); fixSrv.close(); cspSrv.close();

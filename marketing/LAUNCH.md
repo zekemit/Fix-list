@@ -2,6 +2,8 @@
 
 Nothing here can be posted by me: each channel needs an account in a person's name. Everything below is ready to paste. Post one per day, answer every reply the same day, and be upfront that this is a new project. Do not use email campaigns: commercial email needs a postal address.
 
+**Start here:** `marketing/CAMPAIGN.md` is the 30-day plan and calendar; `marketing/DISTRIBUTION.md` has the copy for directories, Reddit, Product Hunt, Indie Hackers, the awesome-a11y pull request and direct messages. This file keeps the Show HN and LinkedIn text.
+
 ## Order of operations
 1. Site live on its final URL. Set `baseUrl` and rebuild so the bookmarklet points at it.
 2. Submit `/sitemap.xml` to Google Search Console and Bing Webmaster Tools (free, need an adult's account).

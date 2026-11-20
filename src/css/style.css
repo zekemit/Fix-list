@@ -70,6 +70,7 @@ code,pre{font-family:var(--mono);font-size:.95rem}
 .prose pre{max-width:none}
 .prose .cta{margin-top:2.5rem}
 ol.steps{list-style:none;padding:0;counter-reset:step}
+ol.steps[start="8"]{counter-reset:step 7}
 ol.steps>li{counter-increment:step;padding-left:2.75rem;margin:1rem 0}
 ol.steps>li::before{content:counter(step);float:left;width:2rem;height:2rem;margin:.05rem 0 0 -2.75rem;border-radius:50%;background:var(--ink);color:var(--white);font:700 1rem/2rem var(--display);text-align:center}
 ul.ticks{list-style:none;padding:0}
@@ -187,3 +188,9 @@ footer.site a{color:var(--ink)}
 @media (prefers-reduced-motion:no-preference){
   .btn,nav a{transition:background-color .15s,box-shadow .2s,color .15s}
 }
+
+/* Tables (the exit-code table in the CI guide) */
+table{border-collapse:collapse;width:100%;max-width:var(--measure);margin:1.25rem 0;font-size:1rem}
+th,td{text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{border-bottom:2px solid var(--ink)}
+td:first-child,th:first-child{width:5rem}

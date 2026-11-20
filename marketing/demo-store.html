@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linen Co. | Blue ceramic mug</title>
+<style>
+  body{margin:0;font:16px/1.5 Georgia,serif;color:#2b2b2b;background:#fbf9f6}
+  header{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid #e6e0d8}
+  .logo{font-size:24px;letter-spacing:.08em}
+  nav a{margin-left:22px;color:#8d8d8d;text-decoration:none;font-size:14px}
+  .icons{display:flex;gap:14px;align-items:center}
+  .icon{width:22px;height:22px;display:inline-block;border:2px solid #333;border-radius:50%}
+  button.icon-btn{background:none;border:0;padding:0;cursor:pointer}
+  main{display:grid;grid-template-columns:1fr 1fr;gap:48px;padding:40px;max-width:1000px;margin:0 auto}
+  .photo{height:380px;border-radius:6px;background:#dfe6f7;display:grid;place-items:center}
+  .mug{width:150px;height:150px;border-radius:12px 12px 70px 70px;background:#2f5be0}
+  h1{font-size:34px;margin:0 0 6px;font-weight:400}
+  .price{color:#b9b3aa;font-size:22px;margin:0 0 18px}
+  .row{display:flex;gap:10px;align-items:center;margin:14px 0}
+  input.qty{width:46px;height:38px;border:1px solid #bbb;border-radius:4px;text-align:center}
+  .add{height:42px;padding:0 26px;border:0;border-radius:4px;background:#2f5be0;color:#fff;font-size:15px}
+  .news{margin-top:28px;padding-top:18px;border-top:1px solid #e6e0d8}
+  .news input{height:38px;border:1px solid #bbb;border-radius:4px;padding:0 10px;width:220px}
+  .small{font-size:11px;color:#a8a29a}
+  .thumbs{display:flex;gap:8px;margin-top:12px}
+  .thumbs a{display:inline-block;width:34px;height:34px;background:#dfe6f7;border-radius:4px}
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">LINEN CO.</span>
+  <nav><a href="/shop">Shop</a><a href="/about">Our story</a><a href="/journal">Journal</a></nav>
+  <div class="icons">
+    <a href="/wishlist"><span class="icon"></span></a>
+    <button class="icon-btn"><span class="icon"></span></button>
+  </div>
+</header>
+<main>
+  <div>
+    <div class="photo"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='130'%3E%3Crect x='20' y='20' width='100' height='90' rx='12' fill='%232f5be0'/%3E%3Crect x='110' y='45' width='30' height='36' rx='16' fill='none' stroke='%232f5be0' stroke-width='8'/%3E%3C/svg%3E"></div>
+    <div class="thumbs"><a href="#1"></a><a href="#2"></a><a href="#3"></a></div>
+  </div>
+  <div>
+    <h1>Blue ceramic mug</h1>
+    <p class="price">$24.00</p>
+    <p>Hand-glazed stoneware. Holds 12 oz. Dishwasher safe.</p>
+    <div class="row"><input class="qty" value="1"><button class="add">Add to bag</button></div>
+    <p class="small">Free shipping over $60</p>
+    <div class="news"><p>Get 10% off your first order</p><input type="email" placeholder="Email address"></div>
+  </div>
+</main>
+</body>
+</html>

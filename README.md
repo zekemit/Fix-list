@@ -8,6 +8,10 @@ A free, in-browser accessibility check for online stores, and a paid fix plan.
 - **Chrome extension:** click a toolbar button on any page to see the problems in a panel. Runs only when clicked, asks for just `activeTab` and `scripting`, and makes no network requests. Download the zip from [`releases/`](releases/fixlist-extension-0.1.0.zip) or see `docs/EXTENSION.md`.
 - **Site:** a static site (no framework) in `content/`, `src/` and `scripts/build.mjs`, with free guides for store owners.
 
+![The Fixlist panel open over an example store product page. It lists buttons with no readable text, images with no alternative text, form fields with no label, hard-to-read text and links with no readable text, each in plain language.](marketing/assets/panel.png)
+
+![A terminal running npx github:zekemit/fix-list scan on a product page, printing six issue types with their severity and the number of affected elements.](marketing/assets/cli.png)
+
 It deliberately makes no compliance claims. See `docs/PROOF_PLAN.md` for how we find out whether it can be a business.
 
 ## Command-line tool
