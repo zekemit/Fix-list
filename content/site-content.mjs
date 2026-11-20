@@ -103,7 +103,7 @@ export function buildContent(cfg, ctx) {
     <h3>A command</h3>
     <div>
       <p>Check several pages at once, write a Markdown fix plan, or fail a build when a serious problem appears. It also works on sites that block the bookmark.</p>
-      <pre class="terminal" tabindex="0" aria-label="Example command and output"><code>npx github:zekemit/fix-list scan https://your-store.com/
+      <pre class="terminal" tabindex="0" role="group" aria-label="Example command and output"><code>npx github:zekemit/fix-list scan https://your-store.com/
 
 https://your-store.com/  (HTTP 200)
   6 issue types, 6 elements, 6 critical or serious
@@ -176,7 +176,7 @@ https://your-store.com/  (HTTP 200)
 
 <h2>Or use the command line</h2>
 <p>Developers, agencies and anyone who wants to check several pages at once can run the same engine from a terminal. It needs Node 18.3 or newer and a Chrome, Edge or Chromium browser. It also works on sites whose Content Security Policy blocks the bookmark.</p>
-<pre class="terminal" id="cli-code" tabindex="0" aria-label="Command"><code>npx github:zekemit/fix-list scan https://your-store.com/ --out fix-plan.md</code></pre>
+<pre class="terminal" id="cli-code" tabindex="0" role="group" aria-label="Command"><code>npx github:zekemit/fix-list scan https://your-store.com/ --out fix-plan.md</code></pre>
 <p>It prints the problems in plain language and writes a Markdown fix plan. Add <code>--format json</code> for machine-readable output, or <code>--fail-on serious</code> to fail a build. <a href="${cfg.repoUrl}#command-line-tool">Full options</a>.</p>
 
 <h2>Check each kind of page</h2>

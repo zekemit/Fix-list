@@ -40,9 +40,10 @@ try {
       const u = urlOf(f);
       await page.goto(SITE + u);
       await page.addScriptTag({ content: AXE });
-      const r = await page.evaluate((tags) => axe.run(document, { runOnly: { type: 'tag', values: tags } }), TAGS);
+      const r = await page.evaluate((tags) => axe.run(document, { runOnly: { type: 'tag', values: tags }, resultTypes: ['violations', 'incomplete'] }), TAGS);
       const meta = await page.evaluate(() => ({ lang: document.documentElement.lang, title: document.title, h1: document.querySelectorAll('h1').length, scrollX: document.documentElement.scrollWidth > window.innerWidth + 1 }));
       check(`a11y 0 violations ${vp.width}px ${u}`, r.violations.length === 0, r.violations.map((x) => x.id + ':' + x.nodes.length).join(','));
+      check(`a11y nothing left for manual review ${vp.width}px ${u}`, r.incomplete.length === 0, r.incomplete.map((x) => x.id + ':' + x.nodes.length).join(','));
       if (vp.width === 1280) check(`meta ok ${u}`, meta.lang === 'en' && meta.title.length > 10 && meta.h1 === 1, JSON.stringify(meta));
       if (vp.width === 375) check(`no horizontal scroll at 375px ${u}`, !meta.scrollX);
     }
