@@ -16,6 +16,13 @@ Online store owners who see an automated accessibility problem list will pay a s
 - **1 of 8 sites (Gymshark) sets a Content-Security-Policy that blocks outside scripts**, so the bookmarklet would not run there. It alerts the user instead of failing silently. A browser extension would avoid this and is the first roadmap item if demand shows up.
 - 69 automated browser checks pass, including zero axe violations on every page of the site at 1280px and 375px.
 
+## Sequencing: open source first, then paid
+**Phase A (now to about day 30): free and open source.** The goal is evidence that people want this before anyone is asked to pay. Proposed pass thresholds (my proposals): at least 300 visits to the check page, at least 25 GitHub stars or forks, at least 10 pieces of real feedback, and at least 5 people who say, unprompted, that they would pay for the fix plan. The order page stays "Orders open soon" and is honest about it.
+
+**Phase B (after Phase A passes): turn on payment.** An adult (the parent or guardian) must own the payment account: Stripe requires a legal guardian as owner for a minor. Add the payment link to `orderUrl` in `site.config.json`, set `operatorName` and `contactEmail`, rebuild, and then the gates below apply.
+
+If Phase A fails, do not launch paid. Change the audience or the offer first.
+
 ## What would prove it (all thresholds are my proposals)
 | Gate | When | Pass | If it fails |
 |---|---|---|---|
